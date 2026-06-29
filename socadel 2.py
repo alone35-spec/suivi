@@ -9,7 +9,7 @@ import base64
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(page_title="Portail Suivi de Chantier", page_icon="???", layout="wide")
 
-# --- FICHIERS DE STOCKAGE DES DONNÉES SUR LE SERVEUR ---
+# --- FICHIERS DE STOCKAGE DES DONNÉ…S SUR LE SERVEUR ---
 CONFIG_FILE = "config_securite.json"
 ENTREPRISES_FILE = "entreprises_data.json"
 REPORTS_FILE = "rapports_chantiers.json"
@@ -24,7 +24,7 @@ def sauvegarder_fichier(nom_fichier, donnees):
     with open(nom_fichier, "w", encoding="utf-8") as f:
         json.dump(donnees, f, indent=4, ensure_ascii=False)
 
-# Initialisation des fichiers de données
+# Initialisation des fichiers de donné¥³
 config_secu = charger_fichier(CONFIG_FILE, {"password_oncle": "Controleur2026!"})
 entreprises = charger_fichier(ENTREPRISES_FILE, {})
 rapports_data = charger_fichier(REPORTS_FILE, {})
@@ -34,16 +34,16 @@ st.title("?? Plataforme de Suivi des Travaux & Compteurs")
 
 # Choix de l'espace sur la page d'accueil (Deux onglets principaux)
 espace_principal = st.radio(
-    "Veuillez choisir votre espace d'accès :",
-    ["?????? Suivi des Travaux (Contrôleur / Oncle)", "?? Entreprise Traitante"],
+    "Veuillez choisir votre espace d'accè³ :",
+    ["?????? Suivi des Travaux (Contrï¿½ï¿½r / Oncle)", "?? Entreprise Traitante"],
     horizontal=True
 )
 
 # ------------------------------------------------------------------
 # ESPACE 1 : SUIVI DES TRAVAUX (VOTRE ONCLE)
 # ------------------------------------------------------------------
-if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
-    st.header("Espace Superviseur — Contrôle des Travaux")
+if espace_principal == "?????? Suivi des Travaux (Contrï¿½ï¿½r / Oncle)":
+    st.header("Espace Superviseur Â— Contrï¿½ï¿½des Travaux")
     
     # Authentification de l'oncle
     if "oncle_authentifie" not in st.session_state:
@@ -51,33 +51,33 @@ if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
         
     if not st.session_state["oncle_authentifie"]:
         mdp_saisi = st.text_input("Entrez votre mot de passe unique :", type="password")
-        if st.button("Se connecter à mon espace"):
+        if st.button("Se connecter à ­on espace"):
             if mdp_saisi == config_secu["password_oncle"]:
                 st.session_state["oncle_authentifie"] = True
                 st.rerun()
             else:
-                st.error("Mot de passe contrôleur incorrect.")
+                st.error("Mot de passe contrï¿½ï¿½r incorrect.")
     else:
-        st.success("Connecté en tant que Contrôleur Principal.")
-        if st.button("?? Se déconnecter de l'espace contrôleur"):
+        st.success("Connecté ¥n tant que Contrï¿½ï¿½r Principal.")
+        if st.button("?? Se dé£¯nnecter de l'espace contrï¿½ï¿½r"):
             st.session_state["oncle_authentifie"] = False
             st.rerun()
             
         # Sous-onglets de l'oncle
         sub_tab1, sub_tab2, sub_tab3 = st.tabs([
             "?? Gestion de mon Mot de passe",
-            "?? Enregistrer et Créer une Entreprise",
-            "?? Consulter & Télécharger les Rapports"
+            "?? Enregistrer et Cré¥² une Entreprise",
+            "?? Consulter & Té¬©charger les Rapports"
         ])
         
         # Sous-onglet 1.1 : Changement de mot de passe de l'oncle
         with sub_tab1:
-            st.subheader("Modifier votre mot de passe d'accès unique")
+            st.subheader("Modifier votre mot de passe d'accè³ unique")
             ancien_mdp = st.text_input("Ancien mot de passe", type="password", key="anc_oncle")
             nouveau_mdp = st.text_input("Nouveau mot de passe", type="password", key="nouv_oncle")
             confirmer_mdp = st.text_input("Confirmer le nouveau mot de passe", type="password", key="conf_oncle")
             
-            if st.button("Modifier le mot de passe définitif"):
+            if st.button("Modifier le mot de passe dé¦©nitif"):
                 if ancien_mdp != config_secu["password_oncle"]:
                     st.error("L'ancien mot de passe est incorrect.")
                 elif nouveau_mdp != confirmer_mdp:
@@ -87,29 +87,29 @@ if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
                 else:
                     config_secu["password_oncle"] = nouveau_mdp
                     sauvegarder_fichier(CONFIG_FILE, config_secu)
-                    st.success("Votre mot de passe unique a été modifié avec succès !")
+                    st.success("Votre mot de passe unique a é´© modifié ¡vec succè³ !")
                     
-        # Sous-onglet 1.2 : Création dynamique d'entreprise
+        # Sous-onglet 1.2 : Cré¡´ion dynamique d'entreprise
         with sub_tab2:
-            st.subheader("Enregistrement d'une nouvelle entreprise et Génération de clé")
+            st.subheader("Enregistrement d'une nouvelle entreprise et Gé®©ration de clé¢©
             with st.form("creation_entreprise"):
                 nom_ent = st.text_input("Nom de l'entreprise traitante *").strip()
-                localite_ent = st.text_input("Localité / Emplacement du chantier *")
+                localite_ent = st.text_input("Localité ¯ Emplacement du chantier *")
                 projet_ent = st.text_input("Nom du projet en cours *")
                 objet_ent = st.text_input("Objet du projet *")
-                duree_ent = st.text_input("Durée estimée du projet (ex: 3 jours, 1 mois) *")
+                duree_ent = st.text_input("Duré¥ estimé¥ du projet (ex: 3 jours, 1 mois) *")
                 
-                # Informations compteurs demandées
-                quantite_compteurs = st.number_input("Quantité de compteurs prévus", min_value=0, value=0)
+                # Informations compteurs demandé¥³
+                quantite_compteurs = st.number_input("Quantité ¤e compteurs pré¶µs", min_value=0, value=0)
                 date_construction = st.date_input("Date de construction sur le terrain", datetime.today())
                 
-                soumis = st.form_submit_button("Créer l'entreprise & Générer le mot de passe")
+                soumis = st.form_submit_button("Cré¥² l'entreprise & Gé®©rer le mot de passe")
                 
                 if soumis:
                     if not nom_ent or not projet_ent:
                         st.error("Le nom de l'entreprise et le projet sont obligatoires.")
                     else:
-                        # Génération automatique d'un mot de passe sécurisé à 8 caractères
+                        # Gé®©ration automatique d'un mot de passe sé£µrisé   8 caractè²¥s
                         mdp_genere = secrets.token_hex(4).upper()
                         
                         entreprises[nom_ent] = {
@@ -123,18 +123,18 @@ if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
                             "mot_de_passe": mdp_genere
                         }
                         sauvegarder_fichier(ENTREPRISES_FILE, entreprises)
-                        st.success(f"?? Entreprise enregistrée ! MOT DE PASSE GÉNÉRÉ : {mdp_genere}")
-                        st.info(f"Transmettez ce mot de passe à l'entreprise '{nom_ent}' pour son premier contact.")
+                        st.success(f"?? Entreprise enregistré¥ ! MOT DE PASSE GÉÉ’É : {mdp_genere}")
+                        st.info(f"Transmettez ce mot de passe à ¬'entreprise '{nom_ent}' pour son premier contact.")
 
-            # Liste des entreprises créées par l'oncle
-            st.subheader("Entreprises actives & Mots de passe associés")
+            # Liste des entreprises cré©¥s par l'oncle
+            st.subheader("Entreprises actives & Mots de passe associé³¢)
             if entreprises:
                 df_ent = pd.DataFrame.from_dict(entreprises, orient='index')[["nom", "localite", "projet", "mot_de_passe"]]
                 st.dataframe(df_ent, use_container_width=True)
             else:
-                st.info("Aucune entreprise enregistrée pour le moment.")
+                st.info("Aucune entreprise enregistré¥ pour le moment.")
 
-        # Sous-onglet 1.3 : Consultation et téléchargement des rapports par l'oncle
+        # Sous-onglet 1.3 : Consultation et té¬©chargement des rapports par l'oncle
         with sub_tab3:
             st.subheader("Historique global des rapports transmis sur le serveur")
             
@@ -144,11 +144,11 @@ if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
                     
                     # On affiche les rapports de cette entreprise
                     for idx, rap in enumerate(reversed(liste_rapports)):
-                        with st.expander(f"?? Rapport du {rap['date_saisie']} — Projet: {rap['projet_nom']}"):
+                        with st.expander(f"?? Rapport du {rap['date_saisie']} Â— Projet: {rap['projet_nom']}"):
                             st.write(f"**Saisie manuelle / Description :**\n{rap['description']}")
-                            st.write(f"**Numéros de compteurs saisis :** {rap['numeros_compteurs']}")
+                            st.write(f"**Numé²¯s de compteurs saisis :** {rap['numeros_compteurs']}")
                             
-                            # Affichage de l'image réelle si elle existe
+                            # Affichage de l'image ré¥¬le si elle existe
                             if rap.get("image_base64"):
                                 try:
                                     img_data = base64.b64decode(rap["image_base64"])
@@ -156,56 +156,56 @@ if espace_principal == "?????? Suivi des Travaux (Contrôleur / Oncle)":
                                 except Exception as e:
                                     st.error("Impossible d'afficher l'image jointe.")
                             
-                            # Préparation du texte pour téléchargement
+                            # Pré°¡ration du texte pour té¬©chargement
                             texte_telechargement = f"ENTREPRISE: {ent_nom}\nDATE: {rap['date_saisie']}\nPROJET: {rap['projet_nom']}\nCOMPTEURS: {rap['numeros_compteurs']}\n\nDESCRIPTION:\n{rap['description']}"
                             
                             st.download_button(
-                                label="?? Télécharger ce rapport (.txt)",
+                                label="?? Té¬©charger ce rapport (.txt)",
                                 data=texte_telechargement,
                                 file_name=f"Rapport_{ent_nom}_{rap['date_saisie']}.txt",
                                 mime="text/plain",
                                 key=f"dl_{ent_nom}_{idx}"
                             )
             else:
-                st.info("Aucun rapport n'a encore été envoyé par les entreprises sur le serveur.")
+                st.info("Aucun rapport n'a encore é´© envoyé °ar les entreprises sur le serveur.")
 
 # ------------------------------------------------------------------
 # ESPACE 2 : ENTREPRISE TRAITANTE
 # ------------------------------------------------------------------
 elif espace_principal == "?? Entreprise Traitante":
-    st.header("Espace Entreprises Ouvrières")
+    st.header("Espace Entreprises Ouvriè²¥s")
     
     if not entreprises:
-        st.warning("Aucune entreprise n'est configurée sur le serveur par le contrôleur. Accès impossible.")
+        st.warning("Aucune entreprise n'est configuré¥ sur le serveur par le contrï¿½ï¿½r. Accè³ impossible.")
     else:
-        # Sélection de l'entreprise
+        # Sé¬¥ction de l'entreprise
         liste_noms_entreprises = list(entreprises.keys())
-        entreprise_selectionnee = st.selectbox("Sélectionnez votre Entreprise :", liste_noms_entreprises)
+        entreprise_selectionnee = st.selectbox("Sé¬¥ctionnez votre Entreprise :", liste_noms_entreprises)
         
         mdp_entreprise_saisi = st.text_input("Entrez le mot de passe de votre entreprise :", type="password")
         
-        # Vérification du mot de passe propre à l'entreprise sélectionnée
+        # Vé²©fication du mot de passe propre à ¬'entreprise sé¬¥ctionné¥
         if mdp_entreprise_saisi == entreprises[entreprise_selectionnee]["mot_de_passe"]:
-            st.success(f"?? Accès autorisé pour l'entreprise : {entreprise_selectionnee}")
+            st.success(f"?? Accè³ autorisé °our l'entreprise : {entreprise_selectionnee}")
             
-            # Affichage des informations fixes enregistrées par l'oncle
+            # Affichage des informations fixes enregistré¥³ par l'oncle
             info = entreprises[entreprise_selectionnee]
-            st.info(f"?? **Localité :** {info['localite']} | ?? **Projet :** {info['projet']} | ?? **Date Construction :** {info['date_construction']} | ?? **Quantité prévue :** {info['quantite_compteurs']}")
+            st.info(f"?? **Localité º** {info['localite']} | ?? **Projet :** {info['projet']} | ?? **Date Construction :** {info['date_construction']} | ?? **Quantité °ré¶µe :** {info['quantite_compteurs']}")
             
-            st.subheader("?? Rédiger et envoyer le Rapport d'activité")
+            st.subheader("?? Ré¤©ger et envoyer le Rapport d'activité¢©
             
             # Formulaire de saisie du rapport
             with st.form("form_rapport_entreprise"):
                 date_du_jour = st.date_input("Date du rapport", datetime.today())
                 
-                # Demande spécifique sur les numéros de compteur
-                num_compteurs_du_jour = st.text_area("Saisissez les numéros de compteurs installés (séparés par une virgule) :")
+                # Demande spé£©fique sur les numé²¯s de compteur
+                num_compteurs_du_jour = st.text_area("Saisissez les numé²¯s de compteurs installé³ (sé°¡ré³ par une virgule) :")
                 
-                # Rubrique description demandée
-                description_rapport = st.text_area("Description détaillée du rapport (Activités, avancement) :")
+                # Rubrique description demandé¥
+                description_rapport = st.text_area("Description dé´¡illé¥ du rapport (Activité³¬ avancement) :")
                 
                 # Rubrique Images
-                fichier_image = st.file_uploader("Ajouter une image de la journée (Optionnel)", type=["png", "jpg", "jpeg"])
+                fichier_image = st.file_uploader("Ajouter une image de la journé¥ (Optionnel)", type=["png", "jpg", "jpeg"])
                 
                 soumettre_rap = st.form_submit_button("?? Envoyer le rapport sur le serveur")
                 
@@ -231,7 +231,7 @@ elif espace_principal == "?? Entreprise Traitante":
                         
                     rapports_data[entreprise_selectionnee].append(nouveau_rapport)
                     sauvegarder_fichier(REPORTS_FILE, rapports_data)
-                    st.success("Le rapport et les numéros de compteurs ont été envoyés avec succès sur le serveur !")
+                    st.success("Le rapport et les numé²¯s de compteurs ont é´© envoyé³ avec succè³ sur le serveur !")
         else: 
             if mdp_entreprise_saisi:
                 st.error("Mot de passe incorrect pour cette entreprise.")
