@@ -127,7 +127,7 @@ if espace_principal == "?????? Suivi des Travaux (Contr��r / Oncle)":
                         st.info(f"Transmettez ce mot de passe ࠬ'entreprise '{nom_ent}' pour son premier contact.")
 
             # Liste des entreprises cr驥s par l'oncle
-            st.subheader("Entreprises actives & Mots de passe associ鳢)
+            st.subheader("Entreprises actives & Mots de passe associ鳢")
             if entreprises:
                 df_ent = pd.DataFrame.from_dict(entreprises, orient='index')[["nom", "localite", "projet", "mot_de_passe"]]
                 st.dataframe(df_ent, use_container_width=True)
