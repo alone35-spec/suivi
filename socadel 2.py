@@ -91,7 +91,7 @@ if espace_principal == "?????? Suivi des Travaux (Contr��r / Oncle)":
                     
         # Sous-onglet 1.2 : Cr顴ion dynamique d'entreprise
         with sub_tab2:
-            st.subheader("Enregistrement d'une nouvelle entreprise et G鮩ration de cl颩
+            st.subheader("Enregistrement d'une nouvelle entreprise et G鮩ration de cl颩)
             with st.form("creation_entreprise"):
                 nom_ent = st.text_input("Nom de l'entreprise traitante *").strip()
                 localite_ent = st.text_input("Localit頯 Emplacement du chantier *")
