@@ -192,7 +192,7 @@ elif espace_principal == "?? Entreprise Traitante":
             info = entreprises[entreprise_selectionnee]
             st.info(f"?? **Localit頺** {info['localite']} | ?? **Projet :** {info['projet']} | ?? **Date Construction :** {info['date_construction']} | ?? **Quantit頰r鶵e :** {info['quantite_compteurs']}")
             
-            st.subheader("?? R餩ger et envoyer le Rapport d'activit颩
+            st.subheader("📝 Rédiger et envoyer le Rapport d'activité")
             
             # Formulaire de saisie du rapport
             with st.form("form_rapport_entreprise"):
